@@ -1,0 +1,46 @@
+from abc import ABC, abstractmethod
+
+class ItemMenu(ABC):
+    @abstractmethod
+    def get_preco(self):
+        pass
+
+
+class Prato(ItemMenu):
+    def __init__(self, nome, preco):
+        self.nome = nome
+        self.preco = preco
+
+    def get_preco(self):
+        return self.preco
+
+
+class Combo(ItemMenu):
+    def __init__(self, nome):
+        self.nome = nome
+        self.itens = []
+
+    def adicionar(self, item):
+        self.itens.append(item)
+
+    def get_preco(self):
+        total = 0
+        for item in self.itens:
+            total += item.get_preco()
+        return total
+
+
+prato1 = Prato("Hamburguer", 15)
+prato2 = Prato("Batata", 10)
+prato3 = Prato("Refrigerante", 8)
+
+combo1 = Combo("Combo Simples")
+combo1.adicionar(prato1)
+combo1.adicionar(prato2)
+
+combo2 = Combo("Combo Completo")
+combo2.adicionar(combo1)
+combo2.adicionar(prato3)
+
+print("Preço combo simples:", combo1.get_preco())
+print("Preço combo completo:", combo2.get_preco())
